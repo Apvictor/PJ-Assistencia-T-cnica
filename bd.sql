@@ -11,9 +11,7 @@ create table tab_usuarios(
 );
 
 -- Create - Insert
-insert into tab_usuarios(iduser, usuario, fone, login, senha) values(1,'Armando Víctor Pereira', '11995052373','Apvictor','0312');
-insert into tab_usuarios(iduser, usuario, fone, login, senha) values(2,'Administrador', '11995052373','admin','admin');
-insert into tab_usuarios(iduser, usuario, fone, login, senha) values(3,'Amanda Santos da Silva', '11223344556','AS','031218');
+insert into tab_usuarios(iduser, usuario, fone, login, senha, perfil) values(1,'Armando Víctor Pereira', '11995052373','Apvictor','0312',"Administrador");
 
 -- Read - Select
 select * from tab_usuarios;

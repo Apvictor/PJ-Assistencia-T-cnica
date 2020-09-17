@@ -118,14 +118,14 @@ public class TelaLogin extends javax.swing.JFrame {
 
         txt_Usuario.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txt_Usuario.setForeground(new java.awt.Color(255, 255, 255));
-        txt_Usuario.setText("Admin");
+        txt_Usuario.setText("Apvictor");
         txt_Usuario.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         txt_Usuario.setOpaque(false);
         getContentPane().add(txt_Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 160, 183, 30));
 
         txt_Senha.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txt_Senha.setForeground(new java.awt.Color(255, 255, 255));
-        txt_Senha.setText("Admin");
+        txt_Senha.setText("0312");
         txt_Senha.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         txt_Senha.setOpaque(false);
         getContentPane().add(txt_Senha, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, 183, 30));
@@ -157,7 +157,7 @@ public class TelaLogin extends javax.swing.JFrame {
                 btn_instaActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_insta, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 290, 40, 30));
+        getContentPane().add(btn_insta, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 300, 40, 30));
 
         descricao.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         descricao.setText("Assistência Técnica de Celulares");
@@ -170,7 +170,7 @@ public class TelaLogin extends javax.swing.JFrame {
                 btn_zapActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_zap, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 290, 40, 30));
+        getContentPane().add(btn_zap, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 300, 40, 30));
 
         btn_face.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/housetech/icones/facebook.png"))); // NOI18N
         btn_face.setContentAreaFilled(false);
@@ -179,7 +179,7 @@ public class TelaLogin extends javax.swing.JFrame {
                 btn_faceActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_face, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 290, 40, 30));
+        getContentPane().add(btn_face, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 300, 40, 30));
 
         tel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         tel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/housetech/icones/telefone.png"))); // NOI18N
@@ -235,7 +235,8 @@ public class TelaLogin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Preencher Usuário e Senha!", "Login", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btn_EntrarActionPerformed
-    public static void main(String args[]) {
+
+   public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new TelaLogin().setVisible(true);

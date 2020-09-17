@@ -54,14 +54,14 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
     //Método Pesquisar
     private void pesquisar() {
-        String sql = "SELECT idcli as ID, nomecli as NOME, fonecli as FONE FROM tab_clientes WHERE nomecli LIKE ?";
+        String sql = "SELECT idcli as ID, nomecli as NOME, endcli as ENDEREÇO, fonecli as FONE, emailcli as EMAIL FROM tab_clientes WHERE nomecli LIKE ?";
         try {
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txt_Pesquisar.getText() + "%");
             rs = pst.executeQuery();
             tbl_Clientes.setModel(DbUtils.resultSetToTableModel(rs));
             DbUtils.resultSetToTableModel(rs);
-        } catch (Exception erro) {
+        } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "Erro(Read): " + erro.getMessage(), "Clientes", JOptionPane.ERROR_MESSAGE);
         }
     }
