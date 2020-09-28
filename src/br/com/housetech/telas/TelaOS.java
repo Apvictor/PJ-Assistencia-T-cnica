@@ -1,10 +1,9 @@
 package br.com.housetech.telas;
 
-/*
- * @author Armando
- */
+import EmailJFrame.EnviarEmailAnexo;
 import java.sql.*;
 import br.com.housetech.dal.ModuloConexao;
+import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 import net.sf.jasperreports.engine.JRException;
@@ -18,6 +17,8 @@ public class TelaOS extends javax.swing.JInternalFrame {
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
+
+    public int flag = 0;
 
     private String tipo;
 
@@ -120,7 +121,7 @@ public class TelaOS extends javax.swing.JInternalFrame {
             }
 
         } catch (com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException erro) {
-            JOptionPane.showMessageDialog(null, "OS Inválida! ", "OS", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "OS Inválida! " + erro.getMessage(), "OS", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException erro1) {
             JOptionPane.showMessageDialog(null, "Erro(Read OS): " + erro1.getMessage(), "OS", JOptionPane.ERROR_MESSAGE);
         }
@@ -195,7 +196,7 @@ public class TelaOS extends javax.swing.JInternalFrame {
                     txt_Pesquisar.setEnabled(true);
                     tbl_Clientes.setVisible(true);
                 }
-            } catch (Exception erro) {
+            } catch (HeadlessException | SQLException erro) {
                 JOptionPane.showMessageDialog(null, "Erro(Delete): " + erro.getMessage(), "OS", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -255,7 +256,9 @@ public class TelaOS extends javax.swing.JInternalFrame {
         btn_Update = new javax.swing.JButton();
         btn_Delete = new javax.swing.JButton();
         btn_Imprimir = new javax.swing.JButton();
+        btn_Email = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(204, 255, 255));
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
@@ -390,7 +393,7 @@ public class TelaOS extends javax.swing.JInternalFrame {
                 btn_CreateActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Create, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 330, 40, -1));
+        getContentPane().add(btn_Create, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 330, 40, -1));
 
         btn_Read.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/housetech/icones/read.png"))); // NOI18N
         btn_Read.setToolTipText("Consultar");
@@ -412,7 +415,7 @@ public class TelaOS extends javax.swing.JInternalFrame {
                 btn_UpdateActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Update, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 330, 40, -1));
+        getContentPane().add(btn_Update, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 330, 40, -1));
 
         btn_Delete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/housetech/icones/delete.png"))); // NOI18N
         btn_Delete.setToolTipText("Remover");
@@ -423,10 +426,10 @@ public class TelaOS extends javax.swing.JInternalFrame {
                 btn_DeleteActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 330, 40, -1));
+        getContentPane().add(btn_Delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 330, 40, -1));
 
         btn_Imprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/housetech/icones/print.png"))); // NOI18N
-        btn_Imprimir.setToolTipText("IMPRIMIR OS");
+        btn_Imprimir.setToolTipText("Imprimir OS");
         btn_Imprimir.setContentAreaFilled(false);
         btn_Imprimir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Imprimir.addActionListener(new java.awt.event.ActionListener() {
@@ -434,7 +437,18 @@ public class TelaOS extends javax.swing.JInternalFrame {
                 btn_ImprimirActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_Imprimir, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 330, 40, -1));
+        getContentPane().add(btn_Imprimir, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 330, 40, -1));
+
+        btn_Email.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/housetech/icones/gmail.png"))); // NOI18N
+        btn_Email.setToolTipText("Enviar Email");
+        btn_Email.setContentAreaFilled(false);
+        btn_Email.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_Email.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_EmailActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_Email, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 330, 40, -1));
 
         setBounds(0, 0, 592, 431);
     }// </editor-fold>//GEN-END:initComponents
@@ -456,15 +470,15 @@ public class TelaOS extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_DeleteActionPerformed
 //Botão Imprimir
     private void btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ImprimirActionPerformed
-        if(txt_Os.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Favor realizar pesquisa antes de imprimir!");
-        }else{        
+        if (txt_Os.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Favor realizar consulta antes de imprimir!");
+        } else {
             imprimir_os();
         }
     }//GEN-LAST:event_btn_ImprimirActionPerformed
 //Pesquisar
     private void txt_PesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_PesquisarKeyReleased
-            pesquisar(); 
+        pesquisar();
     }//GEN-LAST:event_txt_PesquisarKeyReleased
 //Clicar na Tabela
     private void tbl_ClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_ClientesMouseClicked
@@ -478,11 +492,17 @@ public class TelaOS extends javax.swing.JInternalFrame {
     private void rbt_OsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbt_OsActionPerformed
         tipo = "OS";
     }//GEN-LAST:event_rbt_OsActionPerformed
+//Botão Email
+    private void btn_EmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EmailActionPerformed
+        EnviarEmailAnexo emailAnexo = new EnviarEmailAnexo();
+        emailAnexo.setVisible(true);
+    }//GEN-LAST:event_btn_EmailActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Create;
     private javax.swing.JButton btn_Delete;
+    private javax.swing.JButton btn_Email;
     private javax.swing.JButton btn_Imprimir;
     private javax.swing.JButton btn_Read;
     private javax.swing.JButton btn_Update;
